@@ -1,0 +1,6 @@
+#pastas
+node_modules/
+dist/
+
+#arquivos
+.env

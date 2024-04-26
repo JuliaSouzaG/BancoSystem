@@ -30,7 +30,7 @@ export class BancoController {
     }
     // url: /api/banco/buscar/:id
     public async buscar(req: Request, res: Response) {
-        if (!.req.params.id) { // se não achar parâmetro 
+        if (!req.params.id) { // se não achar parâmetro 
             res.status(400).json({ message: 'Parâmetro de busca não informado' });
             return
         }
@@ -50,6 +50,7 @@ export class BancoController {
         }
     }
 
+    
     public async alterar(req: Request, res: Response) {
 
         if (!req.query.id){ // verifica se tem parâmetro na url
@@ -65,6 +66,22 @@ export class BancoController {
         try {
             this.bancoService.alterar(pk, req.body)
             res.status(200).json({ message: 'Banco alterado com sucesso' });
+        } catch (erro: any){
+            res.status(500).json({ message: erro.message });
+        }
+    }
+    public async delete(req: Request, res: Response) {
+
+        if (!req.params.id){ // verifica se tem parâmetro na url
+            res.status(400).json({ message: 'Parâmetro de busca não encontrado' });
+            return
+        }
+
+        const pk: number = parseInt(<string>req.params.id);
+        
+        try {
+            this.bancoService.delete(pk)
+            res.status(200).json({ message: 'Banco excluído com sucesso' });
         } catch (erro: any){
             res.status(500).json({ message: erro.message });
         }

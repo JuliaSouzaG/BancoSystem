@@ -27,6 +27,10 @@ export class BancoRouter {
         this._router.put('/alterar', (req, res) => {
             this._bancoController.alterar(req, res);
         })
+        // url: /api/banco/delete/:id
+        this._router.delete('/delete/:id', (req, res) => {
+            this._bancoController.delete(req, res);
+        })
 
     }
     get router(): Router {

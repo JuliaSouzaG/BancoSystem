@@ -3,7 +3,7 @@ import { AtmService } from '../services/atm-service';
 
 export class AtmController {
 
-    private atmService = new AtmService
+    private atmService = new AtmService();
 
     public async criar(req: Request, res: Response) {
         if (Object.keys(req.body).length < 2) {

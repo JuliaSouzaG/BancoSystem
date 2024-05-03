@@ -1,5 +1,6 @@
 export interface IAtm {
     id: number;
-    numero: string;
-    nome: string;
+    codigo: string;
+    endereco: string;
+    ativo: string;
 }

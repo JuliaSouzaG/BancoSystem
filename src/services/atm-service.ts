@@ -8,8 +8,9 @@ export class AtmService {
         
         try {
             await AtmModel.create({
-                numero: novo_item.numero,
-                nome: novo_item.nome
+                codigo: novo_item.codigo,
+                endereco: novo_item.endereco,
+                ativo: novo_item.ativo
             });
         } catch (erro: any) {
             throw new Error("Erro no criar [" + erro.message + "]");

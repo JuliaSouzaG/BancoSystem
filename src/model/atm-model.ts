@@ -3,23 +3,32 @@ import sequelize from '../database/sequelize'
 
 export class AtmModel extends Model {
     private _id!: number
-    private _numero!: string
-    private _nome!: string
+    private _codigo!: string
+    private _endereco!: string
+    private _ativo!: string
 
-    get nome(): string {
-        return this._nome
+    get ativo(): string {
+        return this._ativo
     }
 
-    set nome(value: string) {
-        this._nome = value
+    set ativo(value: string) {
+        this._endereco = value
     }
 
-    get numero(): string {
-        return this._numero
+    get endereco(): string {
+        return this._endereco
     }
 
-    set numero(value: string) {
-        this._numero = value
+    set endereco(value: string) {
+        this._endereco = value
+    }
+
+    get codigo(): string {
+        return this._codigo
+    }
+
+    set codigo(value: string) {
+        this._codigo = value
     }
 
     get id(): number {
@@ -36,16 +45,22 @@ AtmModel.init(
         id: {
             type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
+            autoIncrement: true,
+            primaryKey: true,
         },
-        numero: {
+        codigo: {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
         },
-        nome: {
+        endereco: {
             type: DataTypes.STRING,
             allowNull: false,
         },
+        ativo: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        }
     },
     {
         sequelize,

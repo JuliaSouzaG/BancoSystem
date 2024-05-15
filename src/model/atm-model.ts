@@ -5,14 +5,14 @@ export class AtmModel extends Model {
     private _id!: number
     private _codigo!: string
     private _endereco!: string
-    private _ativo!: string
+    private _ativo!: boolean
 
-    get ativo(): string {
+    get ativo(): boolean {
         return this._ativo
     }
 
-    set ativo(value: string) {
-        this._endereco = value
+    set ativo(value: boolean) {
+        this._ativo = value
     }
 
     get endereco(): string {
@@ -58,7 +58,7 @@ AtmModel.init(
             allowNull: false,
         },
         ativo: {
-            type: DataTypes.STRING,
+            type: DataTypes.BOOLEAN,
             allowNull: false,
         }
     },

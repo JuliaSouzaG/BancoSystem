@@ -25,7 +25,7 @@ export class BancoService {
     }
     public async buscar(id: number) {
         try {
-            const banco = <BancoModel> await BancoModel.findByPk(id);
+            const banco = <BancoModel>await BancoModel.findByPk(id);
             return banco;
         } catch (erro: any) {
             throw new Error(erro.message);
@@ -60,5 +60,5 @@ export class BancoService {
         }
     }
 
-  
+
 }

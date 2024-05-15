@@ -1,16 +1,18 @@
 import { DataTypes, Model } from 'sequelize'
 import sequelize from '../database/sequelize'
 
-export class BancoModel extends Model {
+// Model: mapeamento das classes com Banco de dados, junta o conceitual(classe) com o banco
+
+export class BancoModel extends Model { // classe conceitual
     private _id!: number
     private _numero!: string
     private _nome!: string
 
-    get nome(): string {
+    get nome(): string { // pega valor
         return this._nome
     }
 
-    set nome(value: string) {
+    set nome(value: string) { // atribui valor
         this._nome = value
     }
 
@@ -21,6 +23,7 @@ export class BancoModel extends Model {
     set numero(value: string) {
         this._numero = value
     }
+    
     get id(): number {
         return this._id
     }
@@ -30,8 +33,9 @@ export class BancoModel extends Model {
     }
 }
 
-BancoModel.init(
-    {
+// ligação da classe com a tabela (Banco de dados)
+BancoModel.init( 
+    {   // colunas do banco de dados
         id: {
             type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,

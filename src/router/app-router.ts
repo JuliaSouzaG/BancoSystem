@@ -18,7 +18,7 @@ export class AppRouter {
     public carregarRotas() {
         // pegar a aplicação do servidor, e dizer pra ela "Acrescenta essa rota no servidor web"
         this.app_express.use('/api/banco', this.bancoRouter.router);
-        this.app_express.use('/api/banco', this.atmRouter.router);
+        this.app_express.use('/api/atm', this.atmRouter.router);
     }
 } // serve para instanciar (criar) o rotedor de cada classe
 // só é mexido quando se cria outra classe: atm, conta etc.

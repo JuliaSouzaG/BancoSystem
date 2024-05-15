@@ -1,12 +1,12 @@
 import { BancoController } from "../controller/banco-controller";
 import express, { Router } from "express";
 
-export class BancoRouter {
+export class BancoRouter { // define as rotas
     private _router!: Router;
     private _bancoController!: BancoController;
 
     constructor() {
-
+       
         this._router = express.Router();
         this._bancoController = new BancoController();
 

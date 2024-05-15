@@ -2,7 +2,8 @@ import { Request, Response } from 'express';
 import { BancoService } from "../services/banco-service";
 
 export class BancoController {
-
+    // pega do browser (req) e responde (res) pro service, recebe pedido do insonia e responde
+    // tratamento de requisicoes
     private bancoService = new BancoService();
 
     public async criar(req: Request, res: Response) {
@@ -49,7 +50,6 @@ export class BancoController {
             res.status(500).json({ message: erro.message });
         }
     }
-
     
     public async alterar(req: Request, res: Response) {
 
@@ -70,6 +70,7 @@ export class BancoController {
             res.status(500).json({ message: erro.message });
         }
     }
+
     public async delete(req: Request, res: Response) {
 
         if (!req.params.id){ // verifica se tem parâmetro na url

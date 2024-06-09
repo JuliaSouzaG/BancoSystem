@@ -48,6 +48,41 @@ export class AtmController {
             res.status(500).json({ message: erro.message });
         }
     }
+    public async alterar(req: Request, res: Response) {
+
+        if (!req.query.id){ // verifica se tem parâmetro na url
+            res.status(400).json({ message: 'Parâmetro de busca não encontrado' });
+            return
+        }
+        if (Object.keys(req.body).length === 0) { // tras o que é pra ser alterado
+            res.status(400).json({ message: 'O corpo da requisição está vazio' });
+            return
+        }
+        const pk: number = parseInt(<string>req.query.id);
+        
+        try {
+            this.atmService.alterar(pk, req.body)
+            res.status(200).json({ message: 'ATM alterado com sucesso' });
+        } catch (erro: any){
+            res.status(500).json({ message: erro.message });
+        }
+    }
+    public async delete(req: Request, res: Response) {
+
+        if (!req.params.id){ // verifica se tem parâmetro na url
+            res.status(400).json({ message: 'Parâmetro de busca não encontrado' });
+            return
+        }
+
+        const pk: number = parseInt(<string>req.params.id);
+        
+        try {
+            this.atmService.delete(pk)
+            res.status(200).json({ message: 'Atm excluído com sucesso' });
+        } catch (erro: any){
+            res.status(500).json({ message: erro.message });
+        }
+    }
 
 
 }

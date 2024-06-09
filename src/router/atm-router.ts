@@ -22,6 +22,14 @@ export class AtmRouter {
         this._router.get('/buscar/:id', (req, res) => {
             this._atmController.buscar(req, res);
         });
+        // url: /api/atm/alterar?id=<valor>
+        this._router.put('/alterar', (req, res) => {
+            this._atmController.alterar(req, res);
+        })
+        // url: /api/atm/delete/:id
+        this._router.delete('/delete/:id', (req, res) => {
+            this._atmController.delete(req, res);
+        })
     }
      get router(): Router {
         return this._router;

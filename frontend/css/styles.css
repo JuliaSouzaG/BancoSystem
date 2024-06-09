@@ -1,0 +1,45 @@
+body,
+main {
+    height: 800px;
+    overflow: hidden;
+    font-family: "Montserrat", sans-serif;
+}
+
+.bg-dark-purple {
+    background-color: #1D0820;
+}
+
+.sidebar {
+    width: 300px;
+    height: 100%;
+}
+
+.btn-sidebar {
+    border: none;
+    color: #1D0820;
+    border-radius: 8px;
+}
+
+.select-container-sidebar {
+    background-color: #1d08206e;
+    font-weight: 600;
+}
+
+.container-sidebar {
+    background-color: white;
+    font-weight: 400;
+}
+
+.container-sidebar:hover {
+    background-color: rgba(0, 0, 0, 0.075);
+}
+
+.titulo {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1D0820;
+}
+
+.btn-table {
+    border: none;
+}

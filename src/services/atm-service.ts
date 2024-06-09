@@ -48,5 +48,17 @@ export class AtmService {
             throw new Error(erro.message);
         }
     }
+    public async delete(id: number) {
+        try {
+            const banco: AtmModel = await this.buscar(id); // busquei o banco que quero
+            if (banco) { // se o banco for encontrado
+                banco.destroy();
+            } else { // se não encontrar
+                throw new Error('ATM não encontrado')
+            }
+        } catch (erro: any) {
+            throw new Error(erro.message);
+        }
+    }
 }
 // recebe mensagens da web, parte e manda pro router

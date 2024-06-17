@@ -93,20 +93,20 @@
                     </div>
                     <div class="modal-body">
                         <label for="nome" class="form-label">Nome</label>
-                        <input type="text" name="nome" class="form-control mb-2">
+                        <input type="text" id="nome" class="form-control mb-2">
                         <label for="numero" class="form-label">Número</label>
-                        <input type="number" name="numero" class="form-control">
+                        <input type="number" id="codigo" class="form-control">
                         <label for="endereco" class="form-label mb-2">Endereço</label>
-                        <input type="text" name="endereco" class="form-control">
+                        <input type="text" id="endereco" class="form-control">
                         <label for="banco" class="form-label">Banco</label>
-                        <select name="banco" id="banco" class="form-select">Banco
+                        <select id="banco" id="banco" class="form-select">Banco
                             <option selected disabled>Selecione um Banco</option>
                             <option value="1">Caixa Econômica</option>
                         </select>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-success">Cadastrar</button>
+                        <button type="button" id="criarBtn" class="btn btn-success">Cadastrar</button>
                     </div>
                 </div>
             </div>
@@ -140,6 +140,7 @@
             </div>
         </div>
     </main>
+    <script src="js/agencia.js"></script>
 </body>
 
 </html>

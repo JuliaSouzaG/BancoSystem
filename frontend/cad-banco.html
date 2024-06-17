@@ -91,13 +91,13 @@
                     </div>
                     <div class="modal-body">
                         <label for="nome" class="form-label">Nome</label>
-                        <input type="text" name="nome" class="form-control mb-2">
+                        <input type="text" id="nome" class="form-control mb-2">
                         <label for="numero" class="form-label">Número</label>
-                        <input type="number" name="numero" class="form-control">
+                        <input type="number" id="codigo" class="form-control">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-success">Cadastrar</button>
+                        <button type="button" id="criarBtn" class="btn btn-success">Cadastrar</button>
                     </div>
                 </div>
             </div>
@@ -118,12 +118,13 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-success">Salvar alterações</button>
+                        <button type="button" id="criarBtn" class="btn btn-success">Salvar alterações</button>
                     </div>
                 </div>
             </div>
         </div>
     </main>
+    <script src="js/banco.js"></script>
 </body>
 
 </html>

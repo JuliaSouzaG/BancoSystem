@@ -1,42 +1,42 @@
-import { DataTypes, Model } from 'sequelize'
-import sequelize from '../database/sequelize'
+import { DataTypes, Model } from 'sequelize';
+import sequelize from '../database/sequelize';
 
 export class AtmModel extends Model {
-    private _id!: number
-    private _codigo!: string
-    private _endereco!: string
-    private _ativo!: boolean
+    private _id!: number;
+    private _codigo!: string;
+    private _endereco!: string;
+    private _ativo!: boolean;
 
     get ativo(): boolean {
-        return this._ativo
+        return this._ativo;
     }
 
     set ativo(value: boolean) {
-        this._ativo = value
+        this._ativo = value;
     }
 
     get endereco(): string {
-        return this._endereco
+        return this._endereco;
     }
 
     set endereco(value: string) {
-        this._endereco = value
+        this._endereco = value;
     }
 
     get codigo(): string {
-        return this._codigo
+        return this._codigo;
     }
 
     set codigo(value: string) {
-        this._codigo = value
+        this._codigo = value;
     }
 
     get id(): number {
-        return this._id
+        return this._id;
     }
 
     set id(value: number) {
-        this._id = value
+        this._id = value;
     }
 }
 
@@ -44,7 +44,6 @@ AtmModel.init(
     {
         id: {
             type: DataTypes.INTEGER.UNSIGNED,
-            allowNull: false,
             autoIncrement: true,
             primaryKey: true,
         },
@@ -60,12 +59,13 @@ AtmModel.init(
         ativo: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
-        }
+            defaultValue: false,
+        },
     },
     {
         sequelize,
         modelName: 'AtmModel',
         tableName: 'tbl_atm',
-        timestamps: false
+        timestamps: false,
     },
-)
+);

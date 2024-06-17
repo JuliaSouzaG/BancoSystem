@@ -43,3 +43,7 @@ main {
 .btn-table {
     border: none;
 }
+
+tr {
+    cursor: pointer;
+}

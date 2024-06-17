@@ -1,64 +1,87 @@
-import { IAtm } from "../interface/atm-interface";
-import { AtmModel } from "../model/atm-model";
+import { IATM, IOperacao } from '../interface/atm-interface';
+import { AtmModel } from '../model/atm-model';
+import { BancoService } from './banco-service';
 
-export class AtmService {
-    constructor() { }
 
-    public async criar(novo_item: IAtm) {
+export class ATMService {
+    private bancoService!: BancoService;
+
+    constructor() {
+        this.bancoService = new BancoService();
+
+    }
+
+    public async criar(item: IATM) {
         try {
             await AtmModel.create({
-                codigo: novo_item.codigo,
-                endereco: novo_item.endereco,
-                ativo: novo_item.ativo
+                codigo: item.codigo,
+                endereco: item.endereco,
             });
-        } catch (erro: any) {
-            throw new Error("Erro no criar [" + erro.message + "]");
-        }
-    }
-    public async listar() {
-        try {
-            const atms: AtmModel[] = await AtmModel.findAll(); //puxa todos os atm
-            return atms;
-        } catch (erro: any) {
-            throw new Error(erro.massage);
+        } catch (e: any) {
+            throw new Error('Erro ao tentar incluir um novo ATM: ' + e.message);
         }
     }
 
-    public async buscar(id: number) {
+    public async listar(): Promise<AtmModel[]> {
         try {
-            const atm = <AtmModel>await AtmModel.findByPk(id);
-            return atm;
-        } catch (erro: any) {
-            throw new Error(erro.message);
+            const bancos = await AtmModel.findAll();
+            return bancos;
+        } catch (e: any) {
+            throw new Error('Erro ao tentar listar ATMs: ' + e.message);
         }
     }
-    
-    public async alterar(id: number, item: IAtm) {
+
+    public async buscarPorCodigo(codigo_atm: string): Promise<AtmModel> {
         try {
-            const atm: AtmModel = await this.buscar(id); // busquei o banco que quero
-            if (atm) { // se o atm for encontrado
+            const filtro = {
+                where: {
+                    codigo: codigo_atm,
+                },
+            };
+            const atm = <AtmModel>await AtmModel.findOne(filtro);
+            return atm;
+        } catch (e: any) {
+            throw new Error('Erro ao tentar buscar ATM: ' + e.message);
+        }
+    }
+
+    public async buscarPorId(id_atm: number): Promise<AtmModel> {
+        try {
+            const atm = <AtmModel>await AtmModel.findByPk(id_atm);
+            return atm;
+        } catch (e: any) {
+            throw new Error('Erro ao tentar buscar ATM: ' + e.message);
+        }
+    }
+
+    public async atualizar(id_banco: number, item: IATM) {
+        try {
+            const atm = await this.buscarPorId(id_banco);
+
+            if (atm) {
                 atm.codigo = item.codigo;
                 atm.endereco = item.endereco;
                 atm.ativo = item.ativo;
-                atm.save();
-            } else { // se não encontrar
-                throw new Error('ATM não encontrada')
+                await atm.save();
+            } else {
+                throw new Error('ATM não encontrado');
             }
-        } catch (erro: any) {
-            throw new Error(erro.message);
+        } catch (error: any) {
+            throw new Error('Erro ao tentar atualizar ATM: ' + error.message);
         }
     }
-    public async delete(id: number) {
+
+    public async excluir(id_atm: number) {
         try {
-            const banco: AtmModel = await this.buscar(id); // busquei o banco que quero
-            if (banco) { // se o banco for encontrado
-                banco.destroy();
-            } else { // se não encontrar
-                throw new Error('ATM não encontrado')
+            const atm = await this.buscarPorId(id_atm);
+            if (atm) {
+                await atm.destroy();
+            } else {
+                throw new Error('ATM não encontrado');
             }
-        } catch (erro: any) {
-            throw new Error(erro.message);
+        } catch (error: any) {
+            throw new Error('Erro ao tentar excluir ATM: ' + error.message);
         }
     }
+    
 }
-// recebe mensagens da web, parte e manda pro router

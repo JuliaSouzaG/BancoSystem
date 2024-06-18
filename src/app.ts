@@ -5,6 +5,15 @@ import { AppRouter } from './router/app-router';
 const PORT = 3000
 const app = express()
 
+// Middleware para definir o cabeçalho Content-Type em todas as respostas
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); // Ou substitua '*' pela origem permitida
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next();
+});
+
+
 app.use(express.json())
 app.get('/api', (req: Request, res: Response) => {
     res.send('Bem vindo a API bancária')

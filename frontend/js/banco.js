@@ -73,9 +73,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
   })
 
-// Função para fazer a solicitação à APIfunction buscarDadosNaAPI(codigoBanco) {
-async function buscarDadosNaAPI(codigo_banco) {
-    let apiUrl = `http://localhost:3000/api/banco/buscar/${codigo_banco}`
+  async function buscarDadosNaAPI(codigo_banco) {
+    let apiUrl = 'http://localhost:3000/api/banco/buscar/${codigo_banco}'
 
     try {
         const response = await fetch(apiUrl, {
@@ -88,15 +87,33 @@ async function buscarDadosNaAPI(codigo_banco) {
 
         const data = await response.json()
 
-        // banco = data.banco
-        // console.log(banco.id)
-        // Atualizando o conteúdo da página
-        // txtCodigo.value = banco.numero
-        // txtNome.value = banco.nome
-        // Limpa o conteúdo atual da tabela
-        // tbody.innerHTML = ''
+       // Limpa o conteúdo atual da tabela
+       const tableBody = document.querySelector('#tblBanco tbody');
+       tableBody.innerHTML = '';
 
-        return data.existe
+       // Verifica se o banco foi encontrado
+       if (data && data.banco) {
+           const banco = data.banco;
+
+           // Cria uma nova linha na tabela
+           const row = document.createElement('tr');
+           row.innerHTML = `
+               <td colspan="2">
+                   <button class="btn btn-primary">Editar</button>
+                   <button class="btn btn-danger">Excluir</button>
+               </td>
+               <td>${banco.numero}</td>
+               <td>${banco.nome}</td>
+           `;
+           tableBody.appendChild(row);
+       } else {
+           const row = document.createElement('tr');
+           row.innerHTML = `
+               <td colspan="4" class="text-center">Nenhum banco encontrado com o código ${codigo_banco}</td>
+           `;
+           tableBody.appendChild(row);
+       }
+   
 
         // buscarBanco(data.id);
     } catch (error) {

@@ -2,6 +2,7 @@
 const txtCodigo = document.getElementById('codigo')
 const txtNome = document.getElementById('nome')
 const txtEndereco = document.getElementById('endereco')
+const txtIdBanco = document.getElementById('idBanco')
 const buscarId = document.getElementById('buscarId')
 
 const criarBtn = document.getElementById('criarBtn')
@@ -16,31 +17,85 @@ criarBtn.addEventListener('click', function (event) {
     const codigo = document.getElementById('codigo').value
     const nome = document.getElementById('nome').value
     const endereco = document.getElementById('endereco').value
+    const idBanco = document.getElementById('idBanco').value
 
-    if (nome === '' || codigo === '') {
+    if (nome === '' || codigo === '' || endereco === '' || idBanco === '') {
         console.log('num guento mais')
     } else {
         console.log('passando')
         // Aqui você pode enviar os dados para a API
         // Exemplo:
-        enviarDadosParaAPI(codigo, nome)
+        enviarDadosParaAPI(codigo, nome, endereco, idBanco)
         // Limpa os campos do formulário
         document.getElementById('codigo').value = ''
         document.getElementById('nome').value = ''
         document.getElementById('endreco').value = ''
+        document.getElementById('idBanco').value = ''
     }
 })
 
 // buscarBtn.addEventListener('click', function () {
 //     buscarDadosNaAPI(buscarId.value)
 // })
+function buscarBanco() {
+    // Faz a requisição para a API
+    fetch(`http://localhost:3000/api/banco/listar`)
+        .then((response) => response.json())
+        .then((data) => {
+            // Preenche o select com os dados recebidos
+            preencherSelect(data.bancos)
+        })
+        .catch((error) => {
+            console.error('Erro ao obter dados da API:', error);
+        });
+}
 
+function preencherSelect(data) {
+    console.log('passando', data)
+    const selectBanco = document.getElementById('idBanco');
+    
+    // Limpa as opções existentes, se houver alguma
+    selectBanco.innerHTML = '';
+
+    // Itera sobre os dados e os insere no select
+    data.forEach(function(banco) {
+        const option = document.createElement('option');
+        option.value = banco.id; // Define o valor do option (se necessário)
+        option.textContent = banco.nome; // Define o texto visível do option
+        selectBanco.appendChild(option);
+    });
+}
+// function buscarBanco() {
+//     // Faz a requisição para a API
+//     fetch(`http://localhost:3000/api/banco/listar`)
+//         .then((response) => response.json())
+//         .then((data) => {
+//             // Preenche a tabela com os dados recebidos
+//             preencherSelect(data.agencias)
+//         })
+//         .catch((error) => {
+//             console.error('Erro ao obter dados da API:', error)
+//         })
+// }
+// function preencherSelect(data) {
+//     const selectBanco = document.getElementById('idBanco')
+//     // Itera sobre os dados e os insere na tabela
+//     data.forEach(function (agencia) {
+//         const option = document.createElement('option')
+//         option.innerHTML = `
+//         teste ${agencia.nome}
+//     `
+//         selectBanco.appendChild(option)
+//     })
+// }
 // Função para enviar dados para a API (exemplo)
-async function enviarDadosParaAPI(codigo, nome) {
+async function enviarDadosParaAPI(codigo, nome, endereco, id_banco) {
     //monta o json para ser enviado
     let data = {
+        id_banco: id_banco,
         numero: codigo,
         nome: nome,
+        endereco: endereco,
     }
 
     // Faz uma requisição POST para a API
@@ -69,11 +124,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
         const toastLiveExample = document.getElementById('criarToast')
         const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
         toastBootstrap.show()
-  
+
         // Remove o item do localStorage para que o toast não apareça novamente na próxima recarga
         localStorage.removeItem('agenciaCriado')
     }
-  })
+})
 
 // Função para fazer a solicitação à APIfunction buscarDadosNaAPI(codigoBanco) {
 async function buscarDadosNaAPI(codigo_agencia) {
@@ -122,10 +177,10 @@ function buscarAgencia() {
 function deletarAgencia(agenciaId, agenciaNome) {
     const labelDelet = document.getElementById('deletModalLabel')
     labelDelet.innerHTML = `
-  Deletar o agencia ${agenciaNome}?`
+  Deletar a agência ${agenciaNome}?`
 
     document.getElementById('btnConfirm').addEventListener('click', function () {
-        fetch(`http://localhost:3000/api/agencia/delete/${agenciaId}`, {
+        fetch(`http://localhost:3000/api/agencia/excluir?id=${agenciaId}`, {
             method: 'DELETE', // Usando o método DELETE
             headers: {
                 Accept: 'application/json',
@@ -151,15 +206,15 @@ function deletarAgencia(agenciaId, agenciaNome) {
 
 // verifica o reload da pagina quando deleta e executa o toast
 document.addEventListener('DOMContentLoaded', (event) => {
-  const agenciaDeletado = localStorage.getItem('agenciaDeletado')
-  if (agenciaDeletado) {
-      const toastLiveExample = document.getElementById('liveToast')
-      const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
-      toastBootstrap.show()
+    const agenciaDeletado = localStorage.getItem('agenciaDeletado')
+    if (agenciaDeletado) {
+        const toastLiveExample = document.getElementById('liveToast')
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+        toastBootstrap.show()
 
-      // Remove o item do localStorage para que o toast não apareça novamente na próxima recarga
-      localStorage.removeItem('agenciaDeletado')
-  }
+        // Remove o item do localStorage para que o toast não apareça novamente na próxima recarga
+        localStorage.removeItem('agenciaDeletado')
+    }
 })
 
 function preencherTabela(data) {
@@ -170,7 +225,7 @@ function preencherTabela(data) {
     data.forEach(function (agencia) {
         const tr = document.createElement('tr')
         tr.innerHTML = `
-      <td><button onclick="abrirModalEdicao(${agencia.id}, ${agencia.numero}, '${agencia.nome}')" class="btn-table" data-bs-toggle="modal" data-bs-target="#modalEdit"><i
+      <td><button onclick="abrirModalEdicao(${agencia.id}, ${agencia.numero}, '${agencia.nome}', '${agencia.endereco}')" class="btn-table" data-bs-toggle="modal" data-bs-target="#modalEdit"><i
                                     class="bi bi-pencil-square text-warning"></i></button></td>
       <td><button onclick="deletarAgencia(${agencia.id}, '${agencia.nome}')" class="btn-table" data-bs-toggle="modal" data-bs-target="#deletModal"><i class="bi bi-trash text-danger"></i></button></td>
       <td>${agencia.numero}</td>
@@ -182,28 +237,35 @@ function preencherTabela(data) {
 }
 
 // Função para abrir o modal de edição
-function abrirModalEdicao(agenciaId, numeroAtual, nomeAtual) {
+function abrirModalEdicao(idAgencia, numeroAtual, nomeAtual, enderecoAtual) {
     // Preenche os campos do modal com os dados atuais
     document.getElementById('editCodigo').value = numeroAtual
     document.getElementById('editNome').value = nomeAtual
+    document.getElementById('editEndereco').value = enderecoAtual
+    console.log("passando")
+
+
 
     // Adiciona um listener para o botão de salvar alterações
     document.getElementById('btnSalvarEdicao').addEventListener('click', function () {
         // Obtém os novos valores dos campos
-        const novoNumero = document.getElementById('editCodigo').value
+        const novoCodigo = document.getElementById('editCodigo').value
         const novoNome = document.getElementById('editNome').value
-
-        if (novoNumero === '' || novoNome === '') {
+        const novoEndereco = document.getElementById('editEndereco').value
+        const novoIdBanco = document.getElementById('editIdBanco').value
+        if (novoCodigo === '' || novoNome === '' || novoEndereco === '' || novoIdBanco === '') {
             console.log('aaaaaaaaaaaa')
         } else {
             // Monta o objeto com os novos dados
             const data = {
-                numero: novoNumero,
+                id_banco: novoIdBanco,
+                numero: novoCodigo,
                 nome: novoNome,
+                endereco: novoEndereco,
             }
 
             // Faz a requisição PUT para atualizar os dados
-            fetch(`http://localhost:3000/api/agencia/alterar?id=${agenciaId}`, {
+            fetch(`http://localhost:3000/api/agencia/atualizar?id=${idAgencia}`, {
                 method: 'PUT',
                 headers: {
                     Accept: 'application/json',
@@ -218,8 +280,8 @@ function abrirModalEdicao(agenciaId, numeroAtual, nomeAtual) {
                     return response.json()
                 })
                 .then((data) => {
-                  localStorage.setItem('agenciaEditado', 'true')
-                  window.location.reload(true)// Atualiza a lista após editar
+                    localStorage.setItem('agenciaEditado', 'true')
+                    window.location.reload(true)// Atualiza a lista após editar
                 })
                 .catch((error) => {
                     console.error('Erro ao editar agencia:', error)
@@ -230,15 +292,16 @@ function abrirModalEdicao(agenciaId, numeroAtual, nomeAtual) {
 
 // verifica o reload da pagina quando deleta e executa o toast
 document.addEventListener('DOMContentLoaded', (event) => {
-  const agenciaEditado = localStorage.getItem('agenciaEditado')
-  if (agenciaEditado) {
-      const toastLiveExample = document.getElementById('editToast')
-      const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
-      toastBootstrap.show()
+    const agenciaEditado = localStorage.getItem('agenciaEditado')
+    if (agenciaEditado) {
+        const toastLiveExample = document.getElementById('editToast')
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+        toastBootstrap.show()
 
-      // Remove o item do localStorage para que o toast não apareça novamente na próxima recarga
-      localStorage.removeItem('agenciaEditado')
-  }
+        // Remove o item do localStorage para que o toast não apareça novamente na próxima recarga
+        localStorage.removeItem('agenciaEditado')
+    }
 })
 
 buscarAgencia()
+buscarBanco()
